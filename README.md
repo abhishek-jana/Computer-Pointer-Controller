@@ -4,7 +4,7 @@ Computer Pointer Controller app is built using Intel OpenVINO toolkit. This app 
 ## Project Set Up and Installation
 *TODO:* Explain the setup procedures to run your project. For instance, this can include your project directory structure, the models you need to download and where to place them etc. Also include details about how to install the dependencies your project requires.
 To do this project, we need to first download the OpenVINO toolkit in our local machine. Instructions can be found [here](https://docs.openvinotoolkit.org/latest/index.html).
-# Directory Structure
+**Directory Structure**
 Computer Pointer Controller
 ├───README.md
 ├───requirements.txt
@@ -36,7 +36,7 @@ Computer Pointer Controller
     ├───model.py
     └───mouse_controller.py
     
-# Models
+**Models**
 We need to download the following models using the "model downloader" for this app:
 -[Face Detection](https://docs.openvinotoolkit.org/latest/omz_models_intel_face_detection_adas_binary_0001_description_face_detection_adas_binary_0001.html)
 -[Head Pose Estimation](https://docs.openvinotoolkit.org/latest/omz_models_intel_head_pose_estimation_adas_0001_description_head_pose_estimation_adas_0001.html) 
