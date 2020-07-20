@@ -2,13 +2,12 @@
 Computer Pointer Controller app is built using Intel OpenVINO toolkit. This app is use to control mouse pointer using our eye and head movement. We can use a recorded video stream or a webcam directly for the input.
 
 ## Project Set Up and Installation
-*TODO:* Explain the setup procedures to run your project. For instance, this can include your project directory structure, the models you need to download and where to place them etc. Also include details about how to install the dependencies your project requires.
 
 To do this project, we need to first download the OpenVINO toolkit in our local machine. Instructions can be found [here](https://docs.openvinotoolkit.org/latest/index.html).
 
 To activate the environment open command prompt in windows then:
 ```
- cd 'C:\Program Files (x86)\IntelSWTools\openvino_2020.4.287\bin'
+ cd C:\Program Files (x86)\IntelSWTools\openvino_2020.4.287\bin
 ```
 And run 'setupvars.bat file'
 ```
@@ -59,11 +58,19 @@ python downloader.py --name "gaze-estimation-adas-0002"
 ```
 This will create an "intel" directory inside the "model_downloader" directory with all four models inside the "intel" directory. We can move the directory to any desired location for convenience.
 
+Next, use the following command:
+
+```
+cd <pat to Computer Pointer Controller>
+pip install -r requirements.txt
+```
+To install the dependencies.
+
 #### Directory Structure
 
 The directory structure is as follows:
 
- ```bash
+```bash
 
 Computer Pointer Controller
 ├───README.md
@@ -99,6 +106,16 @@ Computer Pointer Controller
 
 ## Demo
 *TODO:* Explain how to run a basic demo of your model.
+
+To run the model, use the following commands:
+
+**Go to project repository**
+
+```
+cd <path to projet repo>/src
+```
+
+
 
 ## Documentation
 *TODO:* Include any documentation that users might need to better understand your project code. For instance, this is a good place to explain the command line arguments that your project supports.
