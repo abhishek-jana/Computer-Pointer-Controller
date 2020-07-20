@@ -8,11 +8,11 @@ To do this project, we need to first download the OpenVINO toolkit in our local 
 
 To activate the environment open command prompt in windows then:
 ```
-> cd 'C:\Program Files (x86)\IntelSWTools\openvino_2020.4.287\bin'
+ cd 'C:\Program Files (x86)\IntelSWTools\openvino_2020.4.287\bin'
 ```
 And run 'setupvars.bat file'
 ```
-> setupvars.bat
+ setupvars.bat
 ```
 
 #### Models
@@ -30,8 +30,9 @@ We need to download the following models using the "model downloader" for this a
 To download the models:
 
 ```
-> cd C:\Program Files (x86)\IntelSWTools\openvino_2020.4.287\deployment_tools\tools\model_downloader
+ cd C:\Program Files (x86)\IntelSWTools\openvino_2020.4.287\deployment_tools\tools\model_downloader
 ```
+Then, use the following commands for each models:
 
 **1. Face Detection Model**
 
@@ -56,8 +57,11 @@ python downloader.py --name "head-pose-estimation-adas-0001"
 ```
 python downloader.py --name "gaze-estimation-adas-0002"
 ```
+This will create an "intel" directory inside the "model_downloader" directory with all four models inside the "intel" directory. We can move the directory to any desired location for convenience.
 
 #### Directory Structure
+
+The directory structure is as follows:
 
  ```bash
 
@@ -92,14 +96,6 @@ Computer Pointer Controller
     ├───model.py
     └───mouse_controller.py
 ```    
-###Models
-We need to download the following models using the "model downloader" for this app:
--[Face Detection](https://docs.openvinotoolkit.org/latest/omz_models_intel_face_detection_adas_binary_0001_description_face_detection_adas_binary_0001.html)
--[Head Pose Estimation](https://docs.openvinotoolkit.org/latest/omz_models_intel_head_pose_estimation_adas_0001_description_head_pose_estimation_adas_0001.html) 
--[Facial Landmarks Detection](https://docs.openvinotoolkit.org/latest/omz_models_intel_landmarks_regression_retail_0009_description_landmarks_regression_retail_0009.html)
--[Gaze Estimation Model](https://docs.openvinotoolkit.org/latest/omz_models_intel_gaze_estimation_adas_0002_description_gaze_estimation_adas_0002.html)
-
-
 
 ## Demo
 *TODO:* Explain how to run a basic demo of your model.
