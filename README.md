@@ -169,32 +169,32 @@ optional arguments:
  GPU : Intel UHD Graphics 630
 
 
-| Models                          | Precision | Size    |Model Loading | Total Inference | Avg Inference | FPS   | Hardware |
-|---------------------------------|-----------|---------|--------------|-----------------|---------------|-------|----------|
-| face-detection-adas-binary-0001 | FP32      | 1.86 MB |              |                 |               |       |          |
-| facial-landmarks-35-adas-0002   | FP32      | 786 KB  |   0.689s     |      1.003s     |    0.017s     | 12FPS |   CPU    |
-| head-pose-estimation-adas-0001  | FP32      | 7.34 MB |              |                 |               |       |          |
-| gaze-estimation-adas-0002       | FP32      | 7.24 MB |              |                 |               |       |          |
-| face-detection-adas-binary-0001 | FP32      | 1.86 MB |              |                 |               |       |          |
-| facial-landmarks-35-adas-0002   | FP16      | 413 KB  |   1.19s      |      1.224s     |    0.0207s    | 10FPS |   CPU    |
-| head-pose-estimation-adas-0001  | FP16      | 3.69 MB |              |                 |               |       |          |
-| gaze-estimation-adas-0002       | FP16      | 3.65 MB |              |                 |               |       |          |
-| face-detection-adas-binary-0001 | FP32      | 1.86 MB |              |                 |               |       |          |
-| facial-landmarks-35-adas-0002   | INT8      | 314 KB  |   0.95s      |      1.173s     |    0.0199s    | 10FPS |   CPU    |
-| head-pose-estimation-adas-0001  | INT8      | 2.05 MB |              |                 |               |       |          |
-| gaze-estimation-adas-0002       | INT8      | 2.09 MB |              |                 |               |       |          |
-| face-detection-adas-binary-0001 | FP32      | 1.86 MB |              |                 |               |       |          |
-| facial-landmarks-35-adas-0002   | FP32      | 786 KB  |  33.77s      |      1.213s     |    0.0205s    | 10FPS |   GPU    |
-| head-pose-estimation-adas-0001  | FP32      | 7.34 MB |              |                 |               |       |          |
-| gaze-estimation-adas-0002       | FP32      | 7.24 MB |              |                 |               |       |          |
-| face-detection-adas-binary-0001 | FP32      | 1.86 MB |              |                 |               |       |          |
-| facial-landmarks-35-adas-0002   | FP16      | 413 KB  |  36.04s      |      1.603s     |    0.0272s    |  8FPS |   GPU    |
-| head-pose-estimation-adas-0001  | FP16      | 3.69 MB |              |                 |               |       |          |
-| gaze-estimation-adas-0002       | FP16      | 3.65 MB |              |                 |               |       |          |
-| face-detection-adas-binary-0001 | FP32      | 1.86 MB |              |                 |               |       |          |
-| facial-landmarks-35-adas-0002   | INT8      | 314 KB  |  38.49s      |      1.616s     |     0.0274s   | 7FPS  |   GPU    |
-| head-pose-estimation-adas-0001  | INT8      | 2.05 MB |              |                 |               |       |          |
-| gaze-estimation-adas-0002       | INT8      | 2.09 MB |              |                 |               |       |          |
+| Models                          | Precision | Size    |Model Loading Time | Total Inference Time | Avg Inference Time | FPS   | Hardware |
+|---------------------------------|-----------|---------|-------------------|----------------------|--------------------|-------|----------|
+| face-detection-adas-binary-0001 | FP32      | 1.86 MB |                   |                      |                    |       |          |
+| facial-landmarks-35-adas-0002   | FP32      | 786 KB  |   0.689s          |      1.003s          |    0.017s          | 12FPS |   CPU    |
+| head-pose-estimation-adas-0001  | FP32      | 7.34 MB |                   |                      |                    |       |          |
+| gaze-estimation-adas-0002       | FP32      | 7.24 MB |                   |                      |                    |       |          |
+| face-detection-adas-binary-0001 | FP32      | 1.86 MB |                   |                      |                    |       |          |
+| facial-landmarks-35-adas-0002   | FP16      | 413 KB  |   1.19s           |      1.224s          |     0.0207s        | 10FPS |   CPU    |
+| head-pose-estimation-adas-0001  | FP16      | 3.69 MB |                   |                      |                    |       |          |
+| gaze-estimation-adas-0002       | FP16      | 3.65 MB |                   |                      |                    |       |          |
+| face-detection-adas-binary-0001 | FP32      | 1.86 MB |                   |                      |                    |       |          |
+| facial-landmarks-35-adas-0002   | INT8      | 314 KB  |   0.95s           |      1.173s          |    0.0199s         | 10FPS |   CPU    |
+| head-pose-estimation-adas-0001  | INT8      | 2.05 MB |                   |                      |                    |       |          |
+| gaze-estimation-adas-0002       | INT8      | 2.09 MB |                   |                      |                    |       |          |
+| face-detection-adas-binary-0001 | FP32      | 1.86 MB |                   |                      |                    |       |          |
+| facial-landmarks-35-adas-0002   | FP32      | 786 KB  |  33.77s           |      1.213s          |    0.0205s         | 10FPS |   GPU    |
+| head-pose-estimation-adas-0001  | FP32      | 7.34 MB |                   |                      |                    |       |          |
+| gaze-estimation-adas-0002       | FP32      | 7.24 MB |                   |                      |                    |       |          |
+| face-detection-adas-binary-0001 | FP32      | 1.86 MB |                   |                      |                    |       |          |
+| facial-landmarks-35-adas-0002   | FP16      | 413 KB  |  36.04s           |      1.603s          |    0.0272s         |  8FPS |   GPU    |
+| head-pose-estimation-adas-0001  | FP16      | 3.69 MB |                   |                      |                    |       |          |
+| gaze-estimation-adas-0002       | FP16      | 3.65 MB |                   |                      |                    |       |          |
+| face-detection-adas-binary-0001 | FP32      | 1.86 MB |                   |                      |                    |       |          |
+| facial-landmarks-35-adas-0002   | INT8      | 314 KB  |  38.49s           |      1.616s          |     0.0274s        | 7FPS  |   GPU    |
+| head-pose-estimation-adas-0001  | INT8      | 2.05 MB |                   |                      |                    |       |          |
+| gaze-estimation-adas-0002       | INT8      | 2.09 MB |                   |                      |                    |       |          |
 
 
 
