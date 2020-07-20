@@ -168,7 +168,7 @@ optional arguments:
  CPU : Intel i7-8750H CPU 2.20 GHz
  GPU : Intel UHD Graphics 630
 
-|---------------------------------------------------------------------------------------------------------------------------|
+
 | Models                          | Precision | Size    |Model Loading | Total Inference | Avg Inference | FPS   | Hardware |
 |---------------------------------|-----------|---------|--------------|-----------------|---------------|-------|----------|
 | face-detection-adas-binary-0001 | FP32      | 1.86 MB |              |                 |               |       |          |
@@ -200,7 +200,7 @@ optional arguments:
 | facial-landmarks-35-adas-0002   | INT8      | 314 KB  |  38.49s      |      1.616s     |     0.0274s   | 7FPS  |   GPU    |
 | head-pose-estimation-adas-0001  | INT8      | 2.05 MB |              |                 |               |       |          |
 | gaze-estimation-adas-0002       | INT8      | 2.09 MB |              |                 |               |       |          |
-|---------------------------------------------------------------------------------------------------------------------------|
+
 
 
 
