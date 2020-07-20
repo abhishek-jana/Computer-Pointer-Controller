@@ -15,9 +15,10 @@ And run 'setupvars.bat file'
 > setupvars.bat
 ```
 
-####Models
+#### Models
 
 We need to download the following models using the "model downloader" for this app:
+
  -[Face Detection](https://docs.openvinotoolkit.org/latest/omz_models_intel_face_detection_adas_binary_0001_description_face_detection_adas_binary_0001.html)
 
  -[Head Pose Estimation](https://docs.openvinotoolkit.org/latest/omz_models_intel_head_pose_estimation_adas_0001_description_head_pose_estimation_adas_0001.html) 
@@ -26,7 +27,37 @@ We need to download the following models using the "model downloader" for this a
  
  -[Gaze Estimation Model](https://docs.openvinotoolkit.org/latest/omz_models_intel_gaze_estimation_adas_0002_description_gaze_estimation_adas_0002.html)
 
-####Directory Structure
+To download the models:
+
+```
+> cd C:\Program Files (x86)\IntelSWTools\openvino_2020.4.287\deployment_tools\tools\model_downloader
+```
+
+**1. Face Detection Model**
+
+```
+python downloader.py --name "face-detection-adas-binary-0001"
+```
+
+**2. Facial Landmarks Detection Model**
+
+```
+python downloader.py --name "landmarks-regression-retail-0009"
+```
+
+**3. Head Pose Estimation Model**
+
+```
+python downloader.py --name "head-pose-estimation-adas-0001"
+```
+
+**4. Gaze Estimation Model**
+
+```
+python downloader.py --name "gaze-estimation-adas-0002"
+```
+
+#### Directory Structure
 
  ```bash
 
