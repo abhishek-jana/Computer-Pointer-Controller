@@ -165,17 +165,69 @@ optional arguments:
 
 ```
 ## Benchmarks
-*TODO:* Include the benchmark results of running your model on multiple hardwares and multiple model precisions. Your benchmarks can include: model loading time, input/output processing time, model inference time etc.
+
+ CPU : Intel i7-8750H CPU 2.20 GHz
+ GPU : Intel UHD Graphics 630
+
+| Models                          | Precision | Size    |Model Loading | Total Inference | Avg Inference | FPS   | Hardware |
+|---------------------------------|-----------|---------|--------------|-----------------|---------------|-------|----------|
+| face-detection-adas-binary-0001 | FP32      | 1.86 MB |                                                |       |          |
+| facial-landmarks-35-adas-0002   | FP32      | 786 KB  | 0.689s                                         | 12FPS |   CPU    |
+| head-pose-estimation-adas-0001  | FP32      | 7.34 MB |                                                |       |          |
+| gaze-estimation-adas-0002       | FP32      | 7.24 MB |                                                |       |          |
+
+| Models                          | Precision | Size    |Model Loading | Total Inference | Avg Inference | FPS   | Hardware |
+|---------------------------------|-----------|---------|-------------------------------------------------|-------|----------|
+| face-detection-adas-binary-0001 | FP32      | 1.86 MB  |                                               |       |          |
+| facial-landmarks-35-adas-0002   | FP16      | 413 KB  | 1.19s                                          | 10FPS |   CPU    |
+| head-pose-estimation-adas-0001  | FP16      | 3.69 MB   |                                              |       |          |
+| gaze-estimation-adas-0002       | FP16      | 3.65 MB |                                                |       |          |
+
+| Models                          | Precision | Size   | Model Loading | Total Inference | Avg Inference | FPS   | Hardware  |
+|---------------------------------|-----------|--------|-------------------------------------------------|-------|-----------|
+| face-detection-adas-binary-0001 | FP32      | 1.86 MB  |                                               |       |           |
+| facial-landmarks-35-adas-0002   | INT8      | 314 KB  | 0.95s                                          | 10FPS |   CPU     |
+| head-pose-estimation-adas-0001  | INT8      | 2.05 MB |                                                |       |           |
+| gaze-estimation-adas-0002       | INT8      | 2.09 MB  |                                               |       |           |
+
+
+| Models                          | Precision | Size    |Model Loading | Total Inference | Avg Inference | FPS   | Hardware |
+|---------------------------------|-----------|---------|---------------|-------|----------|
+| face-detection-adas-binary-0001 | FP32      | 1.86 MB |               |       |          |
+| facial-landmarks-35-adas-0002   | FP32      | 786 KB | 33.77s        | 10FPS |   GPU    |
+| head-pose-estimation-adas-0001  | FP32      | 7.34 MB   |               |       |          |
+| gaze-estimation-adas-0002       | FP32      | 7.24 MB |               |       |          |
+
+| Models                          | Precision | Size   |Model Loading | Total Inference | Avg Inference | FPS   | Hardware |
+|---------------------------------|-----------|--------|---------------|-------|----------|
+| face-detection-adas-binary-0001 | FP32      | 1.86 MB |               |       |          |
+| facial-landmarks-35-adas-0002   | FP16      | 413 KB  | 36.04s        | 8FPS |   GPU    |
+| head-pose-estimation-adas-0001  | FP16      | 3.69 MB |               |       |          |
+| gaze-estimation-adas-0002       | FP16      | 3.65 MB |               |       |          |
+
+| Models                          | Precision | Size   |Model Loading | Total Inference | Avg Inference | FPS         | Hardware  |
+|---------------------------------|-----------|--------|---------------|-------------|-----------|
+| face-detection-adas-binary-0001 | FP32      | 1.86 MB  |               |             |           |
+| facial-landmarks-35-adas-0002   | INT8      | 314 KB  | 38.49s         | 7FPS |   GPU     |
+| head-pose-estimation-adas-0001  | INT8      | 2.05 MB |               |             |           |
+| gaze-estimation-adas-0002       | INT8      | 2.09 MB  |               |             |           |
+
+
+
 
 ## Results
 *TODO:* Discuss the benchmark results and explain why you are getting the results you are getting. For instance, explain why there is difference in inference time for FP32, FP16 and INT8 models.
 
-## Stand Out Suggestions
-This is where you can provide information about the stand out suggestions that you have attempted.
+From the table above we see that precision affects the accuracy and inference time. Lower precision gives us better inference time but lose accuracy compared to higher precision. Also, lower precision model takes less memory.
 
-### Async Inference
-If you have used Async Inference in your code, benchmark the results and explain its effects on power and performance of your project.
+We also see that model loading time and inference time is higher in GPU than in CPU.
+
+## Stand Out Suggestions
+
+This code can take live webcam stream as input video.
 
 ### Edge Cases
-There will be certain situations that will break your inference flow. For instance, lighting changes or multiple people in the frame. Explain some of the edge cases you encountered in your project and how you solved them to make your project more robust.
+
+1. If there is more than one one head in the video, the program ends up selecting one head, but may introduce interference.
+2. Sometimes the pointer ends up going to the edge of the screen creating error. It's better to keep the pointer close to the video stream to avoid error. 
 
