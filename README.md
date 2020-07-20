@@ -109,17 +109,61 @@ Computer Pointer Controller
 
 To run the model, use the following commands:
 
-**Go to project repository**
+**Go to src directory inside project repository**
 
 ```
 cd <path to projet repo>/src
 ```
 
+**Run the main.py file**
+
+```
+python main.py -f <Path to face detection model .xml file> -fl <Path to facial landmarks detection model .xml file> -hp <Path to head pose estimation model .mxl file> -g <Path to gaze estimation model> -i <Path to input video file or type "CAM" for using webcam> 
+```
 
 
 ## Documentation
 *TODO:* Include any documentation that users might need to better understand your project code. For instance, this is a good place to explain the command line arguments that your project supports.
 
+#### Command line arguments for running the app:
+
+```bash
+
+usage: main.py [-h] -f FACEDETECTIONMODEL -fl FACIALLANDMARKMODEL -hp
+               HEADPOSEMODEL -g GAZEESTIMATIONMODEL -i INPUT
+               [-flags PREVIEWFLAGS [PREVIEWFLAGS ...]] [-l CPU_EXTENSION]
+               [-prob PROB_THRESHOLD] [-d DEVICE]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -f FACEDETECTIONMODEL, --facedetectionmodel FACEDETECTIONMODEL
+                        Path to .xml file of Face Detection model.
+  -fl FACIALLANDMARKMODEL, --faciallandmarkmodel FACIALLANDMARKMODEL
+                        Path to .xml file of Facial Landmark Detection model.
+  -hp HEADPOSEMODEL, --headposemodel HEADPOSEMODEL
+                        Path to .xml file of Head Pose Estimation model.
+  -g GAZEESTIMATIONMODEL, --gazeestimationmodel GAZEESTIMATIONMODEL
+                        Path to .xml file of Gaze Estimation model.
+  -i INPUT, --input INPUT
+                        Path to video file or enter cam for webcam
+  -flags PREVIEWFLAGS [PREVIEWFLAGS ...], --previewFlags PREVIEWFLAGS [PREVIEWFLAGS ...]
+                        Specify the flags from fd, fld, hp, ge like --flags fd
+                        hp fld (Seperated by space)for see the visualization
+                        of different model outputs of each frame,fd for Face
+                        Detection, fld for Facial Landmark Detectionhp for
+                        Head Pose Estimation, ge for Gaze Estimation.
+  -l CPU_EXTENSION, --cpu_extension CPU_EXTENSION
+                        path of extensions if any layers is incompatible with
+                        hardware
+  -prob PROB_THRESHOLD, --prob_threshold PROB_THRESHOLD
+                        Probability threshold for model to identify the face .
+  -d DEVICE, --device DEVICE
+                        Specify the target device to run on: CPU, GPU, FPGA or
+                        MYRIAD is acceptable. Sample will look for a suitable
+                        plugin for device (CPU by default)
+
+
+```
 ## Benchmarks
 *TODO:* Include the benchmark results of running your model on multiple hardwares and multiple model precisions. Your benchmarks can include: model loading time, input/output processing time, model inference time etc.
 
