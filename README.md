@@ -8,18 +8,25 @@ To do this project, we need to first download the OpenVINO toolkit in our local 
 
 To activate the environment open command prompt in windows then:
 ```
-cd 'C:\Program Files (x86)\IntelSWTools\openvino_2020.4.287\bin'
+> cd 'C:\Program Files (x86)\IntelSWTools\openvino_2020.4.287\bin'
+```
+And run 'setupvars.bat file'
+```
+> setupvars.bat
 ```
 
-And run 'setupvars.bat file'
-###Models
-We need to download the following models using the "model downloader" for this app:
--[Face Detection](https://docs.openvinotoolkit.org/latest/omz_models_intel_face_detection_adas_binary_0001_description_face_detection_adas_binary_0001.html)
--[Head Pose Estimation](https://docs.openvinotoolkit.org/latest/omz_models_intel_head_pose_estimation_adas_0001_description_head_pose_estimation_adas_0001.html) 
--[Facial Landmarks Detection](https://docs.openvinotoolkit.org/latest/omz_models_intel_landmarks_regression_retail_0009_description_landmarks_regression_retail_0009.html)
--[Gaze Estimation Model](https://docs.openvinotoolkit.org/latest/omz_models_intel_gaze_estimation_adas_0002_description_gaze_estimation_adas_0002.html)
+####Models
 
-###Directory Structure
+We need to download the following models using the "model downloader" for this app:
+ -[Face Detection](https://docs.openvinotoolkit.org/latest/omz_models_intel_face_detection_adas_binary_0001_description_face_detection_adas_binary_0001.html)
+
+ -[Head Pose Estimation](https://docs.openvinotoolkit.org/latest/omz_models_intel_head_pose_estimation_adas_0001_description_head_pose_estimation_adas_0001.html) 
+ 
+ -[Facial Landmarks Detection](https://docs.openvinotoolkit.org/latest/omz_models_intel_landmarks_regression_retail_0009_description_landmarks_regression_retail_0009.html)
+ 
+ -[Gaze Estimation Model](https://docs.openvinotoolkit.org/latest/omz_models_intel_gaze_estimation_adas_0002_description_gaze_estimation_adas_0002.html)
+
+####Directory Structure
 
  ```bash
 
