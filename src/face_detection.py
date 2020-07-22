@@ -5,116 +5,99 @@ This has been provided just to give you an idea of how to structure your model c
 
 import cv2
 import numpy as np
-from openvino.inference_engine import IECore
+from openvino.inference_engine import IECore,IENetwork
 
 
 class Model_FaceDetection:
     '''
     Class for the Face Detection Model.
     '''
-    def __init__(self, model_name, device='CPU', extensions=None):
-        self.model_name = model_name
+    def __init__(self, model_name, device='CPU',extension = None):
+
+        self.net = None
+        self.net_plug = None
+        self.inp_name = None
+        self.out_name = None
+        self.inp_shape = None
+        self.out_shape = None
+
+        self.model = model_name
         self.device = device
-        self.extensions = extensions
-        self.model_structure = model_name
-        self.model_weights = self.model_name.split('.')[0]+'.bin'
-        self.plugin = None
-        self.network = None
-        self.exec_net = None
-        self.input_name = None
-        self.output_name = None
-        self.input_shape = None
-        self.output_shape = None
+        self.ext = extension
+        self.weights = self.model.split('.')[0]+'.bin'
+    def load_model(self,plugin=None):
+       
+        if not plugin:
+            self.plugin = IECore()
+        else:
+            self.plugin = plugin
 
-    def load_model(self):
-        '''
-        TODO: You will need to complete this method
-        This method is for loading the model to the device specified by the user.
-        If your model requires any Plugins, this is where you can load them.
-        '''
-        self.plugin = IECore()
-        self.network = self.plugin.read_network(model = self.model_structure, weights = self.model_weights)
-        
-        supported_layers = self.plugin.query_network(network = self.network, device_name = self.device)
+        self.net = IENetwork(model = self.model, weights = self.weights)
 
-        unsupported_layers = [l for l in self.network.layers.keys() if l not in supported_layers]
+        if not self.ext == None and self.device == 'CPU':
+                print("CPU extension added")
+                
+                self.plugin.add_extension(self.ext, 'CPU')
         
-        if len(unsupported_layers) != 0 and self.device == 'CPU':
-            print("unsupported layers found:{}".format(unsupported_layers))
+        if self.device == 'CPU':
+    
             
-            if not self.extensions == None:
-                print("Adding cpu_extension")
-                
-                self.plugin.add_extension(self.extensions, self.device)
-                
-                supported_layers = self.plugin.query_network(network = self.network, device_name = self.device)
-                unsupported_layers = [l for l in self.network.layers.keys() if l not in supported_layers]
-                
-                if len(unsupported_layers) != 0:
-                    print("Issue still exists")
+                supp_layer = self.plugin.query_network(network = self.net, device_name = self.device)
+
+                no_supp_layer = [lay for lay in self.net.layers.keys() if lay not in supp_layer]
+                if len(no_supp_layer) != 0:
+                    print("Non supported layers found! Please add another CPU extension ")
                     exit(1)
                 
-                print("Issue resolved after adding extensions")
-            else:
-                print("provide path of cpu extension")
-                exit(1)
+                print("Issue resolved after adding extension")
+        else:
+            print("CPU extension needed")
+            exit(1)
 
-        self.exec_net = self.plugin.load_network(network = self.network, device_name = self.device, num_requests = 1)
-        self.input_name = next(iter(self.network.inputs))
-        self.output_name = next(iter(self.network.outputs))
-        self.input_shape = self.network.inputs[self.input_name].shape
-        self.output_shape = self.network.outputs[self.output_name].shape
+        self.net_plug = self.plugin.load_network(network = self.net, device_name = self.device, num_requests = 1)
+        self.inp_name = next(iter(self.net.inputs))
+        self.out_name = next(iter(self.net.outputs))
+        self.inp_shape = self.net.inputs[self.inp_name].shape
 
-    def predict(self, image, prob_threshold):
-        '''
-        TODO: You will need to complete this method.
-        This method is meant for running predictions on the input image.
-        '''
-        image_processed = self.preprocess_input(image.copy())
-        output = self.exec_net.infer({self.input_name : image_processed})
-        coords = self.preprocess_output(output, prob_threshold)
+    def predict(self, frame, prob_threshold):
         
-        if (len(coords) == 0):
+        processed_frame = self.preprocess_input(frame.copy())
+        out = self.net_plug.infer({self.inp_name : processed_frame})
+        out = self.preprocess_output(out, prob_threshold)
+        
+        if (len(out) == 0):
             return 0, 0
-
-        coords = coords[0] 
-        h = image.shape[0]
-        w = image.shape[1]
-        coords = coords* np.array([w, h, w, h])
-        coords = coords.astype(np.int32)
+        out = out[0] 
+        ht = frame.shape[0]
+        wd =frame.shape[1]
+        out = out* np.array([wd, ht, wd, ht])
+        out = out.astype(np.int32)
         
-        cropped_image = image[coords[1]:coords[3], coords[0]:coords[2]]
-        return cropped_image, coords
+        cropped = frame[out[1]:out[3], out[0]:out[2]]
+        return cropped, out
 
     def check_model(self):
         pass
         
-    def preprocess_input(self, image):
-        '''
-        Before feeding the data into the model for inference,
-        you might have to preprocess it. This function is where you can do that.
-        '''
-        image_reshaped = cv2.resize(image, (self.input_shape[3], self.input_shape[2]))
-        image_processed = np.transpose(np.expand_dims(image_reshaped, axis = 0), (0, 3, 1, 2))
+    def preprocess_input(self, frame):
+              
+        h = self.inp_shape[2]
+        w = self.inp_shape[3]        
+        reshaped_frame = cv2.resize(frame, (w, h))
+        reshaped_frame = reshaped_frame.transpose((2,0,1))
+        reshaped_frame = reshaped_frame.reshape(1, 3, h, w)        
+        return reshaped_frame
         
-        return image_processed
-        
-    def preprocess_output(self, outputs, prob_threshold):
-        '''
-        Before feeding the output of this model to the next model,
-        you might have to preprocess the output. This function is where you can do that.
-        '''
-        coords = []
-        outputs = outputs[self.output_name][0][0]
-        for cell in outputs:
-            confidence = cell[2]
+    def preprocess_output(self, out, prob_threshold):
+        dim = []
+        out = out[self.out_name][0][0]
+        for cell in out:
+            conf = cell[2]
             
-            if confidence >= prob_threshold:
+            if conf >= prob_threshold:
                 xmin = cell[3]
                 xmax = cell[5]
                 ymin = cell[4]
-                ymax = cell[6]
-            
-                coords.append([xmin, ymin, xmax, ymax])
-        
-        return coords
+                ymax = cell[6]            
+                dim.append([xmin, ymin, xmax, ymax])        
+        return dim

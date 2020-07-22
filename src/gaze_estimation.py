@@ -5,105 +5,69 @@ This has been provided just to give you an idea of how to structure your model c
 
 import cv2
 import numpy as np
-from openvino.inference_engine import IECore
+from openvino.inference_engine import IECore,IENetwork
 import math
 
 
-class Model_Gaze_Estimation:
+class Model_GazeEstimation:
     '''
     Class for the Gaze Estimation Model.
     '''
-    def __init__(self, model_name, device='CPU', extensions=None):
-        self.model_name = model_name
+    def __init__(self, model_name, device='CPU',extension = None):
+
+        self.net = None
+        self.net_plug = None
+        self.inp_name = None
+        self.out_name = None
+        self.inp_shape = None
+        self.out_shape = None
+
+        self.model = model_name
         self.device = device
-        self.extensions = extensions
-        self.model_structure = model_name
-        self.model_weights = self.model_name.split('.')[0]+'.bin'
-        self.plugin = None
-        self.network = None
-        self.exec_net = None
-        self.input_name = None
-        self.output_name = None
-        self.input_shape = None
-        self.output_shape = None
+        self.ext = extension
+        self.weights = self.model.split('.')[0]+'.bin'
 
+    def load_model(self,plugin=None):
+        if not plugin:
+            self.plugin = IECore()
+        else:
+            self.plugin = plugin
 
-    def load_model(self):
-        '''
-        TODO: You will need to complete this method
-        This method is for loading the model to the device specified by the user.
-        If your model requires any Plugins, this is where you can load them.
-        '''
-        self.plugin = IECore()
-        self.network = self.plugin.read_network(model=self.model_structure, weights=self.model_weights)
+        self.net = IENetwork(model = self.model, weights = self.weights)
 
-        supported_layers = self.plugin.query_network(network=self.network, device_name=self.device)
-        unsupported_layers = [l for l in self.network.layers.keys() if l not in supported_layers]
+        self.net_plug = self.plugin.load_network(network = self.net, device_name = self.device, num_requests = 1)
+        self.inp_name = [key for key in self.net.inputs.keys()]
+        self.out_name = [key for key in self.net.outputs.keys()]
+        self.inp_shape = self.net.inputs[self.inp_name[1]].shape
 
-        if len(unsupported_layers)!=0 and self.device=='CPU':
-            print("unsupported layers found:{}".format(unsupported_layers))
-            
-            if not self.extensions==None:
-                print("Adding cpu_extension")
-                self.plugin.add_extension(self.extensions,self.device)
-                
-                supported_layers = self.plugin.query_network(network=self.network,device_name=self.device)
-                unsupported_layers = [l for l in self.network.layers.keys() if l not in supported_layers]
-                
-                if len(unsupported_layers)!=0:
-                    print("Issue still exists")
-                    exit(1)
-
-                print("Issue resolved after adding extensions")
-            else:
-                print("provide path of cpu extension")
-                exit(1)
-
-        self.exec_net = self.plugin.load_network(network=self.network, device_name=self.device, num_requests=1)
-        self.input_name = [i for i in self.network.inputs.keys()]
-        self.input_shape = self.network.inputs[self.input_name[1]].shape
-        self.output_name = [i for i in self.network.outputs.keys()]
-
-    def predict(self, left_eye_image, right_eye_image, head_pose_angle):
-        '''
-        TODO: You will need to complete this method.
-        This method is meant for running predictions on the input image.
-        '''
-        left_image_processed, right_image_processed = self.preprocess_input(left_eye_image.copy(), right_eye_image.copy())
-
-        output = self.exec_net.infer({'head_pose_angles':head_pose_angle, 'left_eye_image':left_image_processed, 'right_eye_image':right_image_processed})
-
-        mouse_coords, gaze_vec = self.preprocess_output(output, head_pose_angle)
-
-        return mouse_coords, gaze_vec
+    def predict(self, l_eye, r_eye, angle):
+        lip, rip = self.preprocess_input(l_eye.copy(), r_eye.copy())
+        out = self.net_plug.infer({'head_pose_angles':angle, 'left_eye_image':lip, 'right_eye_image':rip})
+        dim, eye_loc = self.preprocess_output(out, angle)
+        return dim, eye_loc
 
     def check_model(self):
         pass
         
-    def preprocess_input(self, left_eye_image, right_eye_image):
-        '''
-        Before feeding the data into the model for inference,
-        you might have to preprocess it. This function is where you can do that.
-        '''
-        left_image_reshaped = cv2.resize(left_eye_image, (self.input_shape[3], self.input_shape[2]))
-        left_image_processed = np.transpose(np.expand_dims(left_image_reshaped, axis=0), (0, 3, 1, 2))
+    def preprocess_input(self, l_eye, r_eye):
+        h = self.inp_shape[2]
+        w = self.inp_shape[3]
+        lreshape = cv2.resize(l_eye, (w, h))
+        lreshape = lreshape.transpose((2,0,1))
+        lreshape = lreshape.reshape(1, 3, h, w)
 
-        right_image_reshaped = cv2.resize(right_eye_image,(self.input_shape[3], self.input_shape[2]))
-        right_image_processed = np.transpose(np.expand_dims(right_image_reshaped , axis=0), (0, 3, 1, 2))
+        rreshape = cv2.resize(r_eye, (w, h))
+        rreshape = rreshape.transpose((2,0,1))
+        rreshape = rreshape.reshape(1, 3, h, w)
 
-        return  left_image_processed,right_image_processed
+        return  lreshape,rreshape
         
-    def preprocess_output(self, outputs, head_pose_angle):
-        '''
-        Before feeding the output of this model to the next model,
-        you might have to preprocess the output. This function is where you can do that.
-        '''
-        gaze_vec = outputs[self.output_name[0]].tolist()[0]
-        angle_r_fc = head_pose_angle[2]
-        cosine = math.cos(angle_r_fc*math.pi/180.0)
-        sine = math.sin(angle_r_fc*math.pi/180.0)
-
-        x_new = gaze_vec[0] * cosine + gaze_vec[1] * sine
-        y_new = -gaze_vec[0] *  sine+ gaze_vec[1] * cosine
+    def preprocess_output(self, out, angle):        
+        c = angle[2]
+        cos = math.cos(c*math.pi/180.0)
+        sin = math.sin(c*math.pi/180.0)
+        eye_loc = out[self.out_name[0]].tolist()[0]
+        x_new = eye_loc[0] * cos + eye_loc[1] * sin
+        y_new = -eye_loc[0] *  sin+ eye_loc[1] * cos
                 
-        return (x_new, y_new), gaze_vec
+        return (x_new, y_new), eye_loc
