@@ -128,39 +128,35 @@ python main.py -f <Path to face detection model .xml file> -fl <Path to facial l
 
 ```bash
 
-usage: main.py [-h] -f FACEDETECTIONMODEL -fl FACIALLANDMARKMODEL -hp
-               HEADPOSEMODEL -g GAZEESTIMATIONMODEL -i INPUT
-               [-flags PREVIEWFLAGS [PREVIEWFLAGS ...]] [-l CPU_EXTENSION]
-               [-prob PROB_THRESHOLD] [-d DEVICE]
+usage: main.py [-h] -i INPUT -fd FACEDETECTION -fl FACIALLANDMARK -hp HEADPOSE
+               -ge GAZEESTIMATION [-viz VISUALIZE [VISUALIZE ...]]
+               [-l CPU_EXTENSION] [-d DEVICE] [-p PROB_THRESHOLD]
 
 optional arguments:
   -h, --help            show this help message and exit
-  -f FACEDETECTIONMODEL, --facedetectionmodel FACEDETECTIONMODEL
-                        Path to .xml file of Face Detection model.
-  -fl FACIALLANDMARKMODEL, --faciallandmarkmodel FACIALLANDMARKMODEL
-                        Path to .xml file of Facial Landmark Detection model.
-  -hp HEADPOSEMODEL, --headposemodel HEADPOSEMODEL
-                        Path to .xml file of Head Pose Estimation model.
-  -g GAZEESTIMATIONMODEL, --gazeestimationmodel GAZEESTIMATIONMODEL
-                        Path to .xml file of Gaze Estimation model.
   -i INPUT, --input INPUT
-                        Path to video file or enter cam for webcam
-  -flags PREVIEWFLAGS [PREVIEWFLAGS ...], --previewFlags PREVIEWFLAGS [PREVIEWFLAGS ...]
-                        Specify the flags from fd, fld, hp, ge like --flags fd
-                        hp fld (Seperated by space)for see the visualization
-                        of different model outputs of each frame,fd for Face
-                        Detection, fld for Facial Landmark Detectionhp for
-                        Head Pose Estimation, ge for Gaze Estimation.
+                        Path to input video file or enter CAM for webcam
+  -fd FACEDETECTION, --facedetection FACEDETECTION
+                        Path to .xml file of trained face detection model.
+  -fl FACIALLANDMARK, --faciallandmark FACIALLANDMARK
+                        Path to .xml file of trained facial landmark detection
+                        model.
+  -hp HEADPOSE, --headpose HEADPOSE
+                        Path to .xml file of trained head pose estimation
+                        model.
+  -ge GAZEESTIMATION, --gazeestimation GAZEESTIMATION
+                        Path to .xml file of trained gaze gstimation model.
+  -viz VISUALIZE [VISUALIZE ...], --visualize VISUALIZE [VISUALIZE ...]
+                        Enter --viz fd, fl, hp, ge (Seperated by space)for
+                        visualizing different model outputs of each frame,
   -l CPU_EXTENSION, --cpu_extension CPU_EXTENSION
-                        path of extensions if any layers is incompatible with
-                        hardware
-  -prob PROB_THRESHOLD, --prob_threshold PROB_THRESHOLD
-                        Probability threshold for model to identify the face .
+                        path of shared library
   -d DEVICE, --device DEVICE
-                        Specify the target device to run on: CPU, GPU, FPGA or
-                        MYRIAD is acceptable. Sample will look for a suitable
-                        plugin for device (CPU by default)
-
+                        Enter the target device: Options are CPU, GPU, FPGA or
+                        MYRIAD. (CPU is default)
+  -p PROB_THRESHOLD, --prob_threshold PROB_THRESHOLD
+                        Probability threshold for model detection. Default is
+                        0.5
 
 ```
 ## Benchmarks
